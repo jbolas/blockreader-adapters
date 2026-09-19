@@ -1,0 +1,13 @@
+[package]
+name = "aff4-blockreader"
+version = "0.1.0"
+edition = "2024"
+description = "Reads AFF4 evidence containers through the blockreader trait"
+authors = ["Jeffrey Bolas"]
+license = "MIT"
+repository = "https://github.com/jbolas/aff4-blockreader"
+readme = "README.md"
+
+[dependencies]
+aff4tools = { path = "../aff4tools" }
+blockreader = { path = "../blockreader" }
