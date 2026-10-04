@@ -1,0 +1,22 @@
+blockreader-adapters
+Copyright (c) 2026 Jeffrey Bolas
+Licensed under the MIT License; see LICENSE.
+
+The e01-blockreader and vmdk-blockreader crates in this repository depend on,
+and when built link, the following crates from imagereader-rs
+(https://github.com/strozfriedberg/imagereader-rs), which are licensed under
+the Apache License, Version 2.0:
+
+    e01-rs, vmdk-rs, imagesource, buildinfo
+    Copyright 2025-2026, LevelBlue, LLC.
+
+A copy of the Apache License, Version 2.0, is available at
+https://www.apache.org/licenses/LICENSE-2.0. No imagereader-rs source code is
+copied into this repository.
+
+e01-rs also depends on the Kaitai Struct runtime for Rust
+(https://github.com/strozfriedberg/kaitai_struct_rust_runtime), licensed under
+the MIT License, Copyright (c) 2019-2025 Kaitai Project.
+
+aff4-blockreader depends on aff4tools (https://github.com/jbolas/aff4tools),
+licensed under the MIT License.

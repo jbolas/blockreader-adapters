@@ -1,0 +1,31 @@
+# cargo-deny configuration for the whole workspace.
+#
+#   cargo deny check licenses
+#
+# The list covers the E01 and VMDK dependency closure: imagereader-rs and its
+# S3 and cache stack. Add a license when a dependency brings it, not in
+# anticipation.
+
+[licenses]
+allow = [
+    "MIT",
+    "MIT-0",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "0BSD",
+    "ISC",
+    "Zlib",
+    "Unicode-3.0",
+    "Unlicense",
+    "CC0-1.0",
+    "CDLA-Permissive-2.0",
+    # attohttpc and minidom, through rust-s3: file-level copyleft, covering
+    # those crates' own files only. Nothing here modifies them.
+    "MPL-2.0",
+]
+
+# The workspace's unpublished members are not third-party code.
+[licenses.private]
+ignore = true

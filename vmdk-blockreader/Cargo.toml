@@ -1,0 +1,16 @@
+[package]
+name = "vmdk-blockreader"
+version = "0.1.0"
+description = "Reads VMDK disk images through the blockreader trait, using imagereader-rs's vmdk-rs"
+publish = false
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+blockreader.workspace = true
+vmdk-rs.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

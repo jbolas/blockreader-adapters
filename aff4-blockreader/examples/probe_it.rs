@@ -14,6 +14,7 @@ fn main() {
         Ok(src) => {
             println!("opened: {} bytes", src.size());
             println!("describe: {:?}", src.describe());
+            println!("sector size: {:?}", src.sector_size());
             let mut buf = vec![0u8; 64];
             match src.read_at(0, &mut buf) {
                 Ok(n) => println!("read {n} bytes at 0: {:02X?}", &buf[..n.min(16)]),

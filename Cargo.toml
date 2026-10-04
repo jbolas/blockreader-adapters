@@ -1,13 +1,25 @@
-[package]
-name = "aff4-blockreader"
-version = "0.1.0"
+[workspace]
+resolver = "3"
+members = ["aff4-blockreader", "contract-tests", "e01-blockreader", "vmdk-blockreader"]
+
+[workspace.package]
 edition = "2024"
-description = "Reads AFF4 evidence containers through the blockreader trait"
 authors = ["Jeffrey Bolas"]
 license = "MIT"
-repository = "https://github.com/jbolas/aff4-blockreader"
-readme = "README.md"
+repository = "https://github.com/jbolas/blockreader-adapters"
 
-[dependencies]
-aff4tools = { path = "../aff4tools" }
-blockreader = { path = "../blockreader" }
+# Paths are relative to this file. Every path dependency also carries a version,
+# so aff4-blockreader publishes against crates.io and builds locally from paths.
+[workspace.dependencies]
+blockreader = { version = "0.1", path = "../blockreader" }
+# A reader never needs hash-asm, and without it no C compiler is needed for sha2.
+aff4tools = { version = "0.1", path = "../aff4tools", default-features = false }
+# imagereader-rs is pinned once here. Switching to a fork changes these two lines.
+e01-rs = { git = "https://github.com/strozfriedberg/imagereader-rs", rev = "4dec71dc4621979e0751fc9a0ee27af765524fd6", default-features = false }
+vmdk-rs = { git = "https://github.com/strozfriedberg/imagereader-rs", rev = "4dec71dc4621979e0751fc9a0ee27af765524fd6" }
+hex = "0.4"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha1 = "0.10"
+sha2 = "0.10"
+tempfile = "3"

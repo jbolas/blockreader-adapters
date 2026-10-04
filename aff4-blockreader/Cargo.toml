@@ -1,0 +1,16 @@
+[package]
+name = "aff4-blockreader"
+version = "0.1.0"
+description = "Reads AFF4 evidence containers through the blockreader trait"
+readme = "README.md"
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+aff4tools.workspace = true
+blockreader.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

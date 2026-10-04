@@ -1,0 +1,28 @@
+[package]
+name = "contract-tests"
+version = "0.0.0"
+description = "The BlockReader contract, checked against every adapter"
+publish = false
+edition.workspace = true
+license.workspace = true
+
+[features]
+# Tests that read fixtures/out/. Run fixtures/generate.sh first.
+fixtures = []
+# Tests that read imagereader-rs's own test images from $IMAGEREADER_DATA.
+imagereader-corpus = []
+
+[dependencies]
+blockreader.workspace = true
+aff4-blockreader = { path = "../aff4-blockreader" }
+e01-blockreader = { path = "../e01-blockreader" }
+vmdk-blockreader = { path = "../vmdk-blockreader" }
+hex.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha1.workspace = true
+sha2.workspace = true
+
+[dev-dependencies]
+aff4tools.workspace = true
+tempfile.workspace = true
