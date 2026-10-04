@@ -20,6 +20,8 @@ dependencies = [
 [[package]]
 name = "aff4tools"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f63280701ca8dceb1d98c25350eeb14c09621e37cb185e7510844684117eec89"
 dependencies = [
  "blake2",
  "blake3",
@@ -669,6 +671,8 @@ dependencies = [
 [[package]]
 name = "blockreader"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "dce7e936f1dfa8f53f4636ac46f84f502e0dd7aeebe18617b62b4fa83815421c"
 
 [[package]]
 name = "buildinfo"

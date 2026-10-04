@@ -8,12 +8,15 @@ authors = ["Jeffrey Bolas"]
 license = "MIT"
 repository = "https://github.com/jbolas/blockreader-adapters"
 
-# Paths are relative to this file. Every path dependency also carries a version,
-# so aff4-blockreader publishes against crates.io and builds locally from paths.
+# blockreader and aff4tools come from crates.io, never by path: a project that
+# names e01-blockreader or vmdk-blockreader as a git dependency gets this
+# repository alone, so a path outside it would not resolve. To build against
+# local checkouts instead, add a [patch.crates-io] entry outside this file, for
+# example in an uncommitted .cargo/config.toml.
 [workspace.dependencies]
-blockreader = { version = "0.1", path = "../blockreader" }
+blockreader = "0.1"
 # A reader never needs hash-asm, and without it no C compiler is needed for sha2.
-aff4tools = { version = "0.1", path = "../aff4tools", default-features = false }
+aff4tools = { version = "0.1", default-features = false }
 # imagereader-rs is pinned once here. Switching to a fork changes these two lines.
 e01-rs = { git = "https://github.com/strozfriedberg/imagereader-rs", rev = "4dec71dc4621979e0751fc9a0ee27af765524fd6", default-features = false }
 vmdk-rs = { git = "https://github.com/strozfriedberg/imagereader-rs", rev = "4dec71dc4621979e0751fc9a0ee27af765524fd6" }
