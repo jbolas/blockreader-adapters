@@ -87,7 +87,9 @@ impl VmdkSource {
     ///
     /// [`Error::Backend`] if `location` is a URL (not supported yet) or a path
     /// that is not valid UTF-8, or if `vmdk-rs` cannot open the image,
-    /// including a delta disk whose parent is missing.
+    /// including a delta disk whose parent is missing. Also if the image
+    /// describes no data at all, which `vmdk-rs` would present as a 0-byte
+    /// disk.
     pub fn open_with(location: &Location, options: &Options) -> Result<Self> {
         let path = match location {
             Location::Path(p) => p.clone(),
@@ -111,6 +113,16 @@ impl VmdkSource {
 
         let reader = VmdkReader::open_with_options(text, &reader_options(options))
             .map_err(Error::backend)?;
+        // vmdk-rs opens some malformed inputs, such as a sparse header whose
+        // fields are all zero or a descriptor naming no extents, as a 0-byte
+        // disk. Presenting that as an empty disk would hide the defect.
+        if reader.image_size == 0 {
+            return Err(Error::backend(Refused(format!(
+                "{}: the VMDK header or descriptor describes no data; refusing it rather \
+                 than presenting an empty disk",
+                path.display()
+            ))));
+        }
         Ok(Self {
             size: reader.image_size,
             reader,
@@ -189,6 +201,34 @@ mod tests {
         let p = dir.path().join("fake.vmdk");
         std::fs::write(&p, b"this is not a VMDK").unwrap();
         assert!(VmdkSource::open(&Location::Path(p)).is_err());
+    }
+
+    /// vmdk-rs opens these malformed inputs as 0-byte disks. The adapter must
+    /// refuse them, not present an empty disk.
+    #[test]
+    fn a_vmdk_that_describes_no_data_is_refused() {
+        let dir = tempfile::tempdir().unwrap();
+        for (name, head) in [
+            // A sparse header whose every field is zero: version 0, capacity 0,
+            // grain size 0.
+            ("zero-header.vmdk", &b"KDMV"[..]),
+            // A descriptor that names no extents.
+            (
+                "no-extents.vmdk",
+                &b"# Disk DescriptorFile\nversion=1\n"[..],
+            ),
+        ] {
+            let p = dir.path().join(name);
+            let mut bytes = head.to_vec();
+            bytes.resize(4096, 0);
+            std::fs::write(&p, &bytes).unwrap();
+            let err = VmdkSource::open(&Location::Path(p)).unwrap_err();
+            assert!(matches!(err, Error::Backend(_)), "{name}: {err:?}");
+            assert!(
+                err.to_string().contains("describes no data"),
+                "{name}: {err}"
+            );
+        }
     }
 
     #[cfg(unix)]
